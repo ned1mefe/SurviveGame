@@ -18,17 +18,16 @@ public class WeaponAim : MonoBehaviour
         
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         
-        transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
-        
-
         if (character != null)
         {
-            if (((angle > 105 || angle < -105) && (transform.localScale.x > 0)) ||
-                ((angle < 75 && angle > -75) && (transform.localScale.x < 0)))
+            if ((mousePosition.x < character.position.x && (transform.localScale.x > 0)) ||
+                (mousePosition.x > character.position.x && (transform.localScale.x < 0)))
             {
                 Flip();
             }
         }
+        
+        transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
     }
 
     private void Flip()
