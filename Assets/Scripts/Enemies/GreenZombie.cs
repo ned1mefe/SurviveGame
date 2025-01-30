@@ -1,6 +1,6 @@
 ﻿namespace Enemies
 {
-    public class GreenZombie : BaseEnemy
+    public class GreenZombie : Enemy
     {
         public override void Step()
         {

@@ -1,6 +1,6 @@
 ﻿namespace Enemies
 {
-    public class Slime : BaseEnemy
+    public class Slime : Enemy
     {
         public override void Step()
         {

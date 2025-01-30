@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Enemies
 {
-    public abstract class BaseEnemy : MonoBehaviour
+    public abstract class Enemy : MonoBehaviour
     {
         [SerializeField]
         private int maxHealth;
@@ -15,7 +15,7 @@ namespace Enemies
         [SerializeField]
         private int damage;
 
-        protected BaseEnemy()
+        protected Enemy()
         {
             Health = maxHealth;
         }

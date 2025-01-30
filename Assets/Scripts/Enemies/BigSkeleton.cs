@@ -1,6 +1,6 @@
 ﻿namespace Enemies
 {
-    public class BigSkeleton : BaseEnemy
+    public class BigSkeleton : Enemy
     {
         public override void Step()
         {
