@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 50
-  range: 200
+  range: 16
   speed: 35
 --- !u!58 &1351534317272248975
 CircleCollider2D:

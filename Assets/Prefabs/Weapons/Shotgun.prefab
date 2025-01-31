@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireRate: 1
-  spread: 30
+  spread: 22
   firePoint: {fileID: 5774217338674447171}
   projectilePrefab: {fileID: 7492276242535926158, guid: f33b1dfc70a06b143964bb8556c39fa7, type: 3}
   bulletsPerShot: 7
