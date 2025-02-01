@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using UnityEngine;
 
 namespace Weapons.Projectiles
@@ -38,10 +38,13 @@ namespace Weapons.Projectiles
             }
         }
 
-        protected void OnTriggerEnter2D(Collider2D other)
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag("Enemy"))
-                Destroy(gameObject); // should be replaced with pooling system later
+            var damageable = other.GetComponent<Units.IDamageble>();
+            if (damageable == null) return;
+            
+            damageable.TakeDamage(damage);
+            Destroy(gameObject); // Replace with pooling
         }
     }
 }

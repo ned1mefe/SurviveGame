@@ -1,6 +1,8 @@
-﻿namespace Enemies
+﻿using Units.Enemies;
+
+namespace Enemies
 {
-    public class Skeleton : Enemy
+    public class GreenZombie : Enemy
     {
         public override void Step()
         {
