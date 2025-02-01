@@ -1,6 +1,4 @@
-﻿using Units.Enemies;
-
-namespace Enemies
+﻿namespace Units.Enemies
 {
     public class BlueZombie : Enemy
     {
