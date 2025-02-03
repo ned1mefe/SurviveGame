@@ -4,12 +4,16 @@ using UnityEngine;
 
 namespace Units.Enemies
 {
-    public abstract class Enemy : MonoBehaviour, IDamageble
+    public abstract class Enemy : MonoBehaviour, IDamageable
     {
         [SerializeField]
         private int maxHealth;
         public int MaxHealth => maxHealth;
-        public int Health { get; set; }
+        public int Health { get; private set; }
+
+        protected Transform Target { get; set; }
+        public void SetTarget(Transform target) => Target = target;
+        private Rigidbody2D _rb;
         
         [SerializeField]
         private float speed;
@@ -24,9 +28,19 @@ namespace Units.Enemies
         {
             Health = maxHealth;
             _animator = GetComponent<Animator>();
+            _rb = GetComponent<Rigidbody2D>();
         }
-        
-        public abstract void Step();
+
+        public virtual void Step()
+        {
+            Chase();
+        }
+
+        private void Chase()
+        {
+            var direction = Target.position - transform.position;
+            _rb.velocity = new Vector2(direction.x * speed, direction.y * speed);
+        }
         
         public virtual void TakeDamage(int amount)
         {
@@ -39,7 +53,7 @@ namespace Units.Enemies
             if (Health <= 0)
                 StartCoroutine(Die());
         }
-
+        
         protected virtual IEnumerator Die()
         {
             if (_animator != null) _animator.SetBool(Dead, true);
@@ -52,5 +66,7 @@ namespace Units.Enemies
             Destroy(gameObject); // Replace with pooling later
         }
 
+        
+        
     }
 }

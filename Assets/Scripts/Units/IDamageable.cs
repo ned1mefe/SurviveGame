@@ -1,7 +1,7 @@
 
 namespace Units
 {
-    public interface IDamageble
+    public interface IDamageable
     {
         void TakeDamage(int amount);
     }

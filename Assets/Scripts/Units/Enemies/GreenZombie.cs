@@ -9,10 +9,6 @@ namespace Units.Enemies
             Destroy(transform.GetChild(0).gameObject); // destroy rake
             return base.Die();
         }
-
-        public override void Step()
-        {
-            throw new System.NotImplementedException();
-        }
+        
     }
 }
