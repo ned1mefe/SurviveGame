@@ -6,24 +6,18 @@ namespace Units.Enemies
 {
     public abstract class Enemy : MonoBehaviour, IDamageable
     {
-        [SerializeField]
-        private int maxHealth;
-        public int MaxHealth => maxHealth;
         public int Health { get; private set; }
-
-        protected Transform Target { get; set; }
-        public void SetTarget(Transform target) => Target = target;
+        protected int MaxHealth => maxHealth;
+        [SerializeField] private int maxHealth;
+        [SerializeField] private float speed;
+        [SerializeField] private int damage;
+        private Transform Target { get; set; }
         private Rigidbody2D _rb;
-        
-        [SerializeField]
-        private float speed;
-        [SerializeField]
-        private int damage;
-
         [CanBeNull] private Animator _animator;
         private static readonly int Hit = Animator.StringToHash("Hit");
         private static readonly int Dead = Animator.StringToHash("Dead");
 
+        public void SetTarget(Transform target) => Target = target;
         protected void Start()
         {
             Health = maxHealth;
@@ -38,7 +32,7 @@ namespace Units.Enemies
 
         private void Chase()
         {
-            var direction = Target.position - transform.position;
+            var direction = (Target.position - transform.position).normalized;
             _rb.velocity = new Vector2(direction.x * speed, direction.y * speed);
         }
         
