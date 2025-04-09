@@ -40,7 +40,7 @@ namespace Weapons.Projectiles
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            var damageable = other.GetComponent<Units.IDamageable>();
+            var damageable = other.GetComponent<Units.IDamageableHostile>();
             if (damageable == null) return;
             
             damageable.TakeDamage(damage);

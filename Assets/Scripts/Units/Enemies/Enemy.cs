@@ -1,10 +1,11 @@
 using System.Collections;
 using JetBrains.Annotations;
 using UnityEngine;
+using Utils;
 
 namespace Units.Enemies
 {
-    public abstract class Enemy : MonoBehaviour, IDamageable
+    public abstract class Enemy : MonoBehaviour, IDamageableHostile
     {
         public int Health { get; private set; }
         protected int MaxHealth => maxHealth;
@@ -14,16 +15,14 @@ namespace Units.Enemies
         private Transform Target { get; set; }
         private Rigidbody2D _rb;
         [CanBeNull] private Animator _animator;
-        private static readonly int Hit = Animator.StringToHash("Hit");
-        private static readonly int Dead = Animator.StringToHash("Dead");
 
-        public void SetTarget(Transform target) => Target = target;
         protected void Start()
         {
             Health = maxHealth;
             _animator = GetComponent<Animator>();
             _rb = GetComponent<Rigidbody2D>();
         }
+        public void SetTarget(Transform target) => Target = target;
 
         public virtual void Step()
         {
@@ -38,9 +37,9 @@ namespace Units.Enemies
         
         public virtual void TakeDamage(int amount)
         {
-            if (Health < 0) return; //already dead, in dead animation
+            if (Health < 0) return; //already dead, in dead animation 
                 
-            if (_animator != null) _animator.SetTrigger(Hit);
+            if (_animator != null) _animator.SetTrigger(AnimatorHashes.Hit);
             
             Health -= amount;
             
@@ -50,7 +49,7 @@ namespace Units.Enemies
         
         protected virtual IEnumerator Die()
         {
-            if (_animator != null) _animator.SetBool(Dead, true);
+            if (_animator != null) _animator.SetBool(AnimatorHashes.Dead, true);
 
             Destroy(GetComponent<Collider2D>());
             Destroy(GetComponent<Rigidbody2D>());
@@ -60,7 +59,14 @@ namespace Units.Enemies
             Destroy(gameObject); // Replace with pooling later
         }
 
-        
-        
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            {
+                var damageable = other.gameObject.GetComponent<IDamageableFriendly>();
+                if (damageable == null) return;
+            
+                damageable.TakeDamage(damage);
+            }
+        }
     }
 }

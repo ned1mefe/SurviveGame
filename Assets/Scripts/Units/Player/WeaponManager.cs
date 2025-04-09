@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Weapons;
 
@@ -7,7 +9,10 @@ namespace Units.Player
     {
         [SerializeField] private Weapon primaryWeapon;
         [SerializeField] private Weapon secondaryWeapon;
-    
+        private event Action WeaponUpdateActions;
+
+        [SerializeField] private List<GameObject> prefabs;
+        
         #region Constants
 
         private const float SecondaryWeaponRotationZ = -0.258819014f;
@@ -21,14 +26,67 @@ namespace Units.Player
     
         #endregion
         public bool HasWeapon => primaryWeapon is not null;
-        private void Update()
+
+        private void Start()
         {
+            PickUpWeapon(CreateWeaponFromPrefab(prefabs[1]));
+            PickUpWeapon(CreateWeaponFromPrefab(prefabs[2]));
+
             if (HasWeapon)
             {
-                HandleAim();
-                HandleWeaponSwitch();
-                HandleShoot();
+                WeaponUpdateActions += HandleAim;
+                WeaponUpdateActions += HandleWeaponSwitch;
+                WeaponUpdateActions += HandleShoot;
             }
+        }
+
+        public void Update()
+        {
+            WeaponUpdateActions?.Invoke();
+        }
+        public void DropWeapon(bool both = false) // drops the primary gun
+        {
+            if(!HasWeapon)
+                return;
+            if (secondaryWeapon is not null) // 2 guns
+            {
+                SwapWeapons();
+                Destroy(secondaryWeapon.gameObject);
+                if (both)
+                {
+                    WeaponUpdateActions = null;
+                    Destroy(primaryWeapon.gameObject);
+                }
+            }
+            else // 1 gun
+            {
+                Destroy(primaryWeapon.gameObject);
+                WeaponUpdateActions = null;
+            }
+        }
+
+        public void PickUpWeapon(Weapon weapon)
+        {
+            if (!HasWeapon)
+            {
+                SetToPrimary(weapon);
+                WeaponUpdateActions += HandleAim;
+                WeaponUpdateActions += HandleWeaponSwitch;
+                WeaponUpdateActions += HandleShoot;
+                return;
+            }
+            if (secondaryWeapon is not null)
+            {
+                SetToPrimary(weapon);
+                return;
+            }
+            SetToSecondary(weapon);
+        }
+
+        private Weapon CreateWeaponFromPrefab(GameObject prefab) // for testing purposes, probably will delete
+        {
+            GameObject weapon = Instantiate(prefab, transform);
+            return weapon.GetComponent<Weapon>();
         }
 
         private void HandleShoot()
@@ -49,7 +107,7 @@ namespace Units.Player
             {
                 return;
             }
-        
+            
             var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePosition.z = 0f;
         
@@ -67,28 +125,36 @@ namespace Units.Player
         {
             if (secondaryWeapon is null)
                 return;
-        
-            (primaryWeapon, secondaryWeapon) = (secondaryWeapon, primaryWeapon); //Swaps
-        
-            primaryWeapon.GetComponent<SpriteRenderer>().sortingOrder = PrimarySortOrder;
-            secondaryWeapon.GetComponent<SpriteRenderer>().sortingOrder = SecondarySortOrder;
-        
-            var primaryTransform = primaryWeapon.transform;
-            var secondaryTransform = secondaryWeapon.transform;
-        
-            // default secondaryWeapon rotation, should be different if looking left
-            secondaryTransform.rotation = new Quaternion(0,0,SecondaryWeaponRotationZ * transform.localScale.x, SecondaryWeaponRotationW); 
-        
-            primaryTransform.localScale = PrimaryScale;
-            secondaryTransform.localScale = SecondaryScale;
 
-            primaryTransform.localPosition = PrimaryPosition;
-            secondaryTransform.localPosition = SecondaryPosition;
+            var previousPrimary = primaryWeapon;
+            SetToPrimary(secondaryWeapon);
+            SetToSecondary(previousPrimary);
+
         }
         private void Flip()
         {
-            Vector3 charScale = transform.localScale;
-            transform.localScale = new Vector3(-charScale.x, charScale.y, charScale.z);
+            var tr = transform;
+            Vector3 charScale = tr.localScale;
+            tr.localScale = new Vector3(-charScale.x, charScale.y, charScale.z);
+        }
+
+        private void SetToPrimary(Weapon weapon)
+        {
+            var weaponTransform = weapon.transform;
+            weaponTransform.localScale = PrimaryScale;
+            weaponTransform.localPosition = PrimaryPosition;
+            weapon.GetComponent<SpriteRenderer>().sortingOrder = PrimarySortOrder;
+            primaryWeapon = weapon;
+        }
+
+        private void SetToSecondary(Weapon weapon)
+        {
+            var weaponTransform = weapon.transform;
+            weaponTransform.localRotation = new Quaternion(0,0,SecondaryWeaponRotationZ, SecondaryWeaponRotationW);
+            weaponTransform.localScale = SecondaryScale;
+            weaponTransform.localPosition = SecondaryPosition;
+            weapon.GetComponent<SpriteRenderer>().sortingOrder = SecondarySortOrder;
+            secondaryWeapon = weapon;
         }
     }
 }

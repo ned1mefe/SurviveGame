@@ -1,26 +1,28 @@
 using UnityEngine;
+using Utils;
 
 namespace Units.Player
 {
     public class PlayerMovement : MonoBehaviour
     {
         [SerializeField] private float speed;
-        [SerializeField] private Rigidbody2D rigidBody;
-        [SerializeField] private Animator animator;
-        private static readonly int Speed = Animator.StringToHash("Speed");
+        private Animator _animator;
+        private Rigidbody2D _rigidBody;
         private WeaponManager _weaponManager;
 
         private void Start()
         {
             _weaponManager = GetComponent<WeaponManager>();
+            _animator = GetComponent<Animator>();
+            _rigidBody = GetComponent<Rigidbody2D>();
         }
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             HandleMovement();
         }
 
-        void HandleMovement()
+        private void HandleMovement()
         {
             float horizontal = Input.GetAxis("Horizontal"); //Unnecessary to get these from the inputManager 
             float vertical = Input.GetAxis("Vertical");
@@ -34,9 +36,8 @@ namespace Units.Player
                 }
             }
         
-            animator.SetFloat(Speed,Mathf.Abs(horizontal) + Mathf.Abs(vertical));
-            rigidBody.velocity = new Vector2(horizontal, vertical) * speed; 
+            _animator.SetFloat(AnimatorHashes.Speed,Mathf.Abs(horizontal) + Mathf.Abs(vertical));
+            _rigidBody.velocity = new Vector2(horizontal, vertical) * speed; 
         }
-    
     }
 }
