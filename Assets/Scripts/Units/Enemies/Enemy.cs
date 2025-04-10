@@ -59,7 +59,7 @@ namespace Units.Enemies
             Destroy(gameObject); // Replace with pooling later
         }
 
-        private void OnCollisionEnter2D(Collision2D other)
+        private void OnCollisionStay2D(Collision2D other)
         {
             {
                 var damageable = other.gameObject.GetComponent<IDamageableFriendly>();
@@ -68,5 +68,7 @@ namespace Units.Enemies
                 damageable.TakeDamage(damage);
             }
         }
+        
+        
     }
 }
