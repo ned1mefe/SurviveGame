@@ -961,6 +961,7 @@ MonoBehaviour:
   secondaryWeapon: {fileID: 0}
   prefabs:
   - {fileID: 7777253912663310495, guid: 9871ac1ee53575847bdae00c098a1736, type: 3}
+  - {fileID: 5703943668166571520, guid: 11ab3d3ab398ac74380faf81d6c678f9, type: 3}
   - {fileID: 3656307751872402621, guid: 5ec2e3f98e2274f40bf69dafb9a7899b, type: 3}
   - {fileID: 5655543673758070097, guid: e250c6c8619d9b84080c13c14695fb34, type: 3}
 --- !u!114 &571276495

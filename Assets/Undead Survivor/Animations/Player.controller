@@ -88,18 +88,18 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 6502919123139674396}
-    m_Position: {x: 190, y: 110, z: 0}
+    m_Position: {x: -210, y: 180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3894789060361379118}
-    m_Position: {x: 470, y: 110, z: 0}
+    m_Position: {x: 70, y: 180, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 310, y: 30, z: 0}
-  m_EntryPosition: {x: 310, y: 200, z: 0}
-  m_ExitPosition: {x: 700, y: 30, z: 0}
+  m_AnyStatePosition: {x: -90, y: 100, z: 0}
+  m_EntryPosition: {x: -90, y: 270, z: 0}
+  m_ExitPosition: {x: 300, y: 100, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 6502919123139674396}
 --- !u!1102 &-3854273354086150991
@@ -173,9 +173,9 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 1
-  m_HasExitTime: 1
-  m_HasFixedDuration: 1
+  m_ExitTime: 0
+  m_HasExitTime: 0
+  m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
@@ -382,8 +382,8 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Vincible
-  m_Speed: 1
-  m_CycleOffset: 0
+  m_Speed: 0.2
+  m_CycleOffset: 0.06
   m_Transitions:
   - {fileID: -1966946749117016764}
   m_StateMachineBehaviours: []
