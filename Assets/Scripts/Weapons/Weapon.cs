@@ -4,43 +4,20 @@ namespace Weapons
 {
     public abstract class Weapon : MonoBehaviour
     {
-        [SerializeField] private float fireRate;
-        [SerializeField] private float spread;
-        [SerializeField] private Transform firePoint;
-        [SerializeField] private GameObject projectilePrefab;
-        [SerializeField] protected int bulletsPerShot;
-        private float _lastFireTime = 0f;
+        [SerializeField] private float cooldown;
+        private float _lastUseTime = 0f;
+        public bool OverrideRotation { get; protected set; } = false;
 
-        private void Shoot()
-        {
-            for (int i = 0; i < bulletsPerShot; i++)
-            {
-                InstantiateBullet();
-            }
-        }
+        private bool CanUse => Time.time >= _lastUseTime + cooldown;
 
-        private void InstantiateBullet()
+        public void TryUse()
         {
-            if (projectilePrefab != null && firePoint != null)
-            {
-                var angleOffset = Random.Range(-spread / 2, spread / 2);
-                Instantiate(projectilePrefab, firePoint.position, firePoint.rotation * Quaternion.Euler(0,0,angleOffset));
-            }
-        }
-
-        public void TryShoot()
-        {
-            if (!CanShoot) return;
+            if (!CanUse) return;
             
-            _lastFireTime = Time.time;
-            Shoot();
+            _lastUseTime = Time.time;
+            Use();
         }
 
-        private bool CanShoot => Time.time >= _lastFireTime + fireRate;
-
-        private void Start()
-        {
-            firePoint.Rotate(projectilePrefab.transform.rotation.eulerAngles); //Bullets are vertical in their sprites
-        }
+        protected abstract void Use();
     }
 }

@@ -30,7 +30,7 @@ namespace Units.Player
         private void Start()
         {
             PickUpWeapon(CreateWeaponFromPrefab(prefabs[1]));
-            PickUpWeapon(CreateWeaponFromPrefab(prefabs[2]));
+            //PickUpWeapon(CreateWeaponFromPrefab(prefabs[2]));
 
             if (HasWeapon)
             {
@@ -65,11 +65,11 @@ namespace Units.Player
             }
         }
 
-        public void PickUpWeapon(Weapon weapon)
+        public void PickUpWeapon(Weapon rangedWeapon)
         {
             if (!HasWeapon)
             {
-                SetToPrimary(weapon);
+                SetToPrimary(rangedWeapon);
                 WeaponUpdateActions += HandleAim;
                 WeaponUpdateActions += HandleWeaponSwitch;
                 WeaponUpdateActions += HandleShoot;
@@ -77,10 +77,10 @@ namespace Units.Player
             }
             if (secondaryWeapon is not null)
             {
-                SetToPrimary(weapon);
+                SetToPrimary(rangedWeapon);
                 return;
             }
-            SetToSecondary(weapon);
+            SetToSecondary(rangedWeapon);
         }
 
         private Weapon CreateWeaponFromPrefab(GameObject prefab) // for testing purposes, probably will delete
@@ -92,7 +92,7 @@ namespace Units.Player
         private void HandleShoot()
         {
             if (InputManager.Instance.IsShooting)
-                primaryWeapon.TryShoot();
+                primaryWeapon.TryUse();
         }
         private void HandleWeaponSwitch()
         {
@@ -103,11 +103,11 @@ namespace Units.Player
         }
         private void HandleAim()
         {
-            if (Camera.main is null)
+            if (!HasWeapon || primaryWeapon.OverrideRotation || Camera.main is null )
             {
                 return;
             }
-            
+                       
             var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePosition.z = 0f;
         
@@ -137,16 +137,14 @@ namespace Units.Player
             Vector3 charScale = tr.localScale;
             tr.localScale = new Vector3(-charScale.x, charScale.y, charScale.z);
         }
-
         private void SetToPrimary(Weapon weapon)
         {
             var weaponTransform = weapon.transform;
-            weaponTransform.localScale = PrimaryScale;
+            //weaponTransform.localScale = PrimaryScale;
             weaponTransform.localPosition = PrimaryPosition;
             weapon.GetComponent<SpriteRenderer>().sortingOrder = PrimarySortOrder;
             primaryWeapon = weapon;
         }
-
         private void SetToSecondary(Weapon weapon)
         {
             var weaponTransform = weapon.transform;
