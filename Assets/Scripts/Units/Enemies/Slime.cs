@@ -11,6 +11,11 @@ namespace Units.Enemies
             var scale = (MaxHealth + ((float)Health * 3 / 2)) / MaxHealth;
             transform.localScale = new Vector3(scale,scale,1);
         }
-        
+
+        public override void OnGetFromPool()
+        {
+            transform.localScale = new Vector3(2.5f,2.5f,1);
+            base.OnGetFromPool();
+        }
     }
 }

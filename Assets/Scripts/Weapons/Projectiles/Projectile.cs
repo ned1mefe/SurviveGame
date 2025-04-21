@@ -1,9 +1,10 @@
 ﻿
+using Pooling;
 using UnityEngine;
 
 namespace Weapons.Projectiles
 {
-    public abstract class Projectile : MonoBehaviour
+    public abstract class Projectile : MonoBehaviour, IPoolable
     {
         [SerializeField] private int damage;
         [SerializeField] private float range;
@@ -14,14 +15,6 @@ namespace Weapons.Projectiles
         {
             _rb = GetComponent<Rigidbody2D>();
         }
-
-        private void Start()
-        {
-            _startTime = Time.time;
-            Vector3 direction = transform.up;
-            _rb.velocity = new Vector2(direction.x * speed, direction.y * speed);
-        }
-
         private void FixedUpdate()
         {
             CheckRange();
@@ -34,7 +27,7 @@ namespace Weapons.Projectiles
 
             if (traveledDistance >= range)
             {
-                Destroy(gameObject);
+                PoolManager.Instance.ReturnToPool(gameObject);
             }
         }
 
@@ -44,7 +37,16 @@ namespace Weapons.Projectiles
             if (damageable == null) return;
             
             damageable.TakeDamage(damage);
-            Destroy(gameObject); // Replace with pooling
+            PoolManager.Instance.ReturnToPool(gameObject);
+        }
+
+        public void OnReturnToPool() { }
+
+        public void OnGetFromPool()
+        {
+            _startTime = Time.time;
+            Vector3 direction = transform.up;
+            _rb.velocity = new Vector2(direction.x * speed, direction.y * speed);
         }
     }
 }

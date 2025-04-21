@@ -1,3 +1,4 @@
+using Pooling;
 using UnityEngine;
 
 namespace Weapons
@@ -21,10 +22,12 @@ namespace Weapons
 
         private void InstantiateBullet()
         {
-            if (projectilePrefab != null && firePoint != null)
+            if (projectilePrefab is not null 
+                && firePoint is not null 
+                && projectilePrefab.TryGetComponent<IPoolable>(out var poolable))
             {
                 var angleOffset = Random.Range(-spread / 2, spread / 2);
-                Instantiate(projectilePrefab, firePoint.position, firePoint.rotation * Quaternion.Euler(0,0,angleOffset));
+                PoolManager.Instance.GetFromPool(poolable.GetPoolTag(), firePoint.position, firePoint.rotation * Quaternion.Euler(0,0,angleOffset));
             }
         }
 

@@ -1,4 +1,5 @@
 using System.Collections;
+using Pooling;
 using Units.Enemies;
 using UnityEngine;
 
@@ -39,11 +40,25 @@ public class EnemySpawner : MonoBehaviour
             #endregion
             
             GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
-
-            GameObject enemy = Instantiate(enemyPrefab, spawnPoint, Quaternion.identity);
             
-            if (_swarmManager != null)
-                _swarmManager.RegisterEnemy(enemy.GetComponent<Enemy>());
+            if (!enemyPrefab.TryGetComponent<IPoolable>(out var poolable))
+            {
+                Debug.LogWarning("Selected prefab is not poolable");
+                continue;
+            }
+            
+            //Debug.Log($"{enemyPrefab.name} spawned at {(int)spawnPoint.x}, {(int)spawnPoint.y}");
+
+            GameObject enemyObj = PoolManager.Instance.GetFromPool(poolable.GetPoolTag(), spawnPoint, Quaternion.identity);
+
+            if (enemyObj.TryGetComponent<Enemy>(out var enemyComponent) && _swarmManager is not null)
+            {
+                _swarmManager.RegisterEnemy(enemyComponent);
+            }
+            else
+            {
+                Debug.LogWarning("Spawned object doesn't have an Enemy component");
+            }
         }
     }
 }

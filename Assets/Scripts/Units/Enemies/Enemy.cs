@@ -1,11 +1,12 @@
 using System.Collections;
 using JetBrains.Annotations;
+using Pooling;
 using UnityEngine;
 using Utils;
 
 namespace Units.Enemies
 {
-    public abstract class Enemy : MonoBehaviour, IDamageableHostile
+    public abstract class Enemy : MonoBehaviour, IDamageableHostile, IPoolable
     {
         public int Health { get; private set; }
         protected int MaxHealth => maxHealth;
@@ -14,13 +15,14 @@ namespace Units.Enemies
         [SerializeField] private int damage;
         private Transform Target { get; set; }
         private Rigidbody2D _rb;
+        private Collider2D _col;
         [CanBeNull] private Animator _animator;
 
         protected void Start()
         {
-            Health = maxHealth;
             _animator = GetComponent<Animator>();
             _rb = GetComponent<Rigidbody2D>();
+            _col = GetComponent<Collider2D>();
         }
         public void SetTarget(Transform target) => Target = target;
 
@@ -31,13 +33,16 @@ namespace Units.Enemies
 
         private void Chase()
         {
+            if (Target is null)
+                return;
+            
             var direction = (Target.position - transform.position).normalized;
             _rb.velocity = new Vector2(direction.x * speed, direction.y * speed);
         }
         
         public virtual void TakeDamage(int amount)
         {
-            if (Health < 0) return; //already dead, in dead animation 
+            if (Health < 0) return; 
                 
             if (_animator != null) _animator.SetTrigger(AnimatorHashes.Hit);
             
@@ -51,12 +56,15 @@ namespace Units.Enemies
         {
             if (_animator != null) _animator.SetBool(AnimatorHashes.Dead, true);
 
-            Destroy(GetComponent<Collider2D>());
-            Destroy(GetComponent<Rigidbody2D>());
+            if (_col is not null)
+                _col.enabled = false;
+            
+            if (_rb is not null)
+                _rb.simulated = false;
             
             yield return new WaitForSeconds(2f);
             
-            Destroy(gameObject); // Replace with pooling later
+            PoolManager.Instance.ReturnToPool(gameObject);
         }
 
         private void OnCollisionStay2D(Collision2D other)
@@ -68,7 +76,24 @@ namespace Units.Enemies
                 damageable.TakeDamage(damage);
             }
         }
-        
-        
+
+        public void OnReturnToPool()
+        {
+            if (_animator is not null) _animator.SetBool(AnimatorHashes.Dead, false);
+        }
+
+        public virtual void OnGetFromPool()
+        {
+            Health = MaxHealth;
+            
+            if (_col is not null)
+                _col.enabled = true;
+
+            if (_rb is not null)
+            {
+                _rb.simulated = true;
+                _rb.velocity = Vector2.zero;
+            }
+        }
     }
 }

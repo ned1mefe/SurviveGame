@@ -6,9 +6,14 @@ namespace Units.Enemies
     {
         protected override IEnumerator Die()
         {
-            Destroy(transform.GetChild(0).gameObject); // destroy rake
+            transform.GetChild(0).gameObject.SetActive(false); // destroy rake before dead animation
             return base.Die();
         }
-        
+        public override void OnGetFromPool()
+        {
+            base.OnGetFromPool();
+            
+            transform.GetChild(0).gameObject.SetActive(true);
+        }
     }
 }
