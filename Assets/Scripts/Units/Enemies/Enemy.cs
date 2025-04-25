@@ -2,24 +2,37 @@ using System.Collections;
 using JetBrains.Annotations;
 using Pooling;
 using UnityEngine;
+using UnityEngine.UI;
 using Utils;
 
 namespace Units.Enemies
 {
     public abstract class Enemy : MonoBehaviour, IDamageableHostile, IPoolable
     {
-        public int Health { get; private set; }
-        protected int MaxHealth => maxHealth;
-        [SerializeField] private int maxHealth;
+        private int _health;
+        public int Health
+        {
+            get => _health;
+            private set
+            {
+                _health = value;
+                healthBar.value = (float)_health / maxHealth;
+            }
+        }
+
+        [SerializeField] protected int maxHealth;
         [SerializeField] private float speed;
         [SerializeField] private int damage;
         private Transform Target { get; set; }
         private Rigidbody2D _rb;
         private Collider2D _col;
+        [SerializeField] private Slider healthBar;
         [CanBeNull] private Animator _animator;
+        
 
         protected void Start()
         {
+            Health = maxHealth;
             _animator = GetComponent<Animator>();
             _rb = GetComponent<Rigidbody2D>();
             _col = GetComponent<Collider2D>();
@@ -61,6 +74,8 @@ namespace Units.Enemies
             
             if (_rb is not null)
                 _rb.simulated = false;
+
+            healthBar.gameObject.SetActive(false);
             
             yield return new WaitForSeconds(2f);
             
@@ -80,11 +95,12 @@ namespace Units.Enemies
         public void OnReturnToPool()
         {
             if (_animator is not null) _animator.SetBool(AnimatorHashes.Dead, false);
+            healthBar.gameObject.SetActive(true);
         }
 
         public virtual void OnGetFromPool()
         {
-            Health = MaxHealth;
+            Health = maxHealth;
             
             if (_col is not null)
                 _col.enabled = true;

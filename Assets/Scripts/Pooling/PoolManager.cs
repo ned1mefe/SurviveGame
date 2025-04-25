@@ -107,8 +107,6 @@ namespace Pooling
                 Debug.LogWarning($"{key} is not a poolable object.");
             }
             
-            Debug.Log($"pool of{key} consists of {_poolsDictionary[key].Count}");
-
             return obj;
         }
 

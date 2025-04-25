@@ -8,7 +8,7 @@ namespace Units.Enemies
         {
             base.TakeDamage(amount);
 
-            var scale = (MaxHealth + ((float)Health * 3 / 2)) / MaxHealth;
+            var scale = (maxHealth + ((float)Health * 3 / 2)) / maxHealth;
             transform.localScale = new Vector3(scale,scale,1);
         }
 
