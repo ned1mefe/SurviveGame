@@ -11,6 +11,7 @@ namespace Weapons
         [SerializeField] private GameObject projectilePrefab;
         [SerializeField] protected int bulletsPerShot;
         private float _lastFireTime = 0f;
+        private string _bulletPoolTag;
 
         private void Shoot()
         {
@@ -23,11 +24,10 @@ namespace Weapons
         private void InstantiateBullet()
         {
             if (projectilePrefab is not null 
-                && firePoint is not null 
-                && projectilePrefab.TryGetComponent<IPoolable>(out var poolable))
+                && firePoint is not null)
             {
                 var angleOffset = Random.Range(-spread / 2, spread / 2);
-                PoolManager.Instance.GetFromPool(poolable.GetPoolTag(), firePoint.position, firePoint.rotation * Quaternion.Euler(0,0,angleOffset));
+                PoolManager.Instance.GetFromPool(_bulletPoolTag, firePoint.position, firePoint.rotation * Quaternion.Euler(0,0,angleOffset));
             }
         }
 
@@ -44,6 +44,10 @@ namespace Weapons
         private void Start()
         {
             firePoint.Rotate(projectilePrefab.transform.rotation.eulerAngles); //Bullets are vertical in their sprites
+            if (projectilePrefab.TryGetComponent<IPoolable>(out var poolable))
+            {
+                _bulletPoolTag = poolable.GetPoolTag();
+            }
         }
     }
 }
