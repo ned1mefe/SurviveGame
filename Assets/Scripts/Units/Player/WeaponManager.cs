@@ -7,8 +7,8 @@ namespace Units.Player
 {
     public class WeaponManager : MonoBehaviour
     {
-        [SerializeField] private Weapon primaryWeapon;
-        [SerializeField] private Weapon secondaryWeapon;
+        private Weapon _primaryWeapon;
+        private Weapon _secondaryWeapon;
         private event Action WeaponUpdateActions;
 
         [SerializeField] private List<GameObject> prefabs;
@@ -25,11 +25,11 @@ namespace Units.Player
         private static readonly Vector3 SecondaryPosition = new Vector3(-0.2f,-0.28f,0);
     
         #endregion
-        public bool HasWeapon => primaryWeapon is not null;
+        public bool HasWeapon => _primaryWeapon is not null;
 
         private void Start()
         {
-            PickUpWeapon(CreateWeaponFromPrefab(prefabs[1]));
+            PickUpWeapon(CreateWeaponFromPrefab(prefabs[0]));
             PickUpWeapon(CreateWeaponFromPrefab(prefabs[2]));
 
             if (HasWeapon)
@@ -44,27 +44,20 @@ namespace Units.Player
         {
             WeaponUpdateActions?.Invoke();
         }
-        public void DropWeapon(bool both = false) // drops the primary gun
+        public void OnDisable()
         {
             if(!HasWeapon)
                 return;
-            if (secondaryWeapon is not null) // 2 guns
+            
+            _primaryWeapon.gameObject.SetActive(false);
+            if (_secondaryWeapon is not null) // 2 guns
             {
-                SwapWeapons();
-                Destroy(secondaryWeapon.gameObject);
-                if (both)
-                {
-                    WeaponUpdateActions = null;
-                    Destroy(primaryWeapon.gameObject);
-                }
+                _secondaryWeapon.gameObject.SetActive(false);
             }
-            else // 1 gun
-            {
-                Destroy(primaryWeapon.gameObject);
-                WeaponUpdateActions = null;
-            }
+            
+            WeaponUpdateActions = null;
         }
-
+        
         public void PickUpWeapon(Weapon weapon)
         {
             if (!HasWeapon)
@@ -75,7 +68,7 @@ namespace Units.Player
                 WeaponUpdateActions += HandleShoot;
                 return;
             }
-            if (secondaryWeapon is not null)
+            if (_secondaryWeapon is not null)
             {
                 SetToPrimary(weapon);
                 return;
@@ -92,7 +85,7 @@ namespace Units.Player
         private void HandleShoot()
         {
             if (InputManager.Instance.IsShooting)
-                primaryWeapon.TryShoot();
+                _primaryWeapon.TryShoot();
         }
         private void HandleWeaponSwitch()
         {
@@ -111,7 +104,7 @@ namespace Units.Player
             var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePosition.z = 0f;
         
-            Vector3 direction = mousePosition - primaryWeapon.transform.position;
+            Vector3 direction = mousePosition - _primaryWeapon.transform.position;
         
             if ((mousePosition.x < transform.position.x && (transform.localScale.x > 0)) ||
                 (mousePosition.x > transform.position.x && (transform.localScale.x < 0)))
@@ -119,15 +112,15 @@ namespace Units.Player
                 Flip();
             }
         
-            primaryWeapon.transform.right = direction * transform.localScale.x;
+            _primaryWeapon.transform.right = direction * transform.localScale.x;
         }
         private void SwapWeapons()
         {
-            if (secondaryWeapon is null)
+            if (_secondaryWeapon is null)
                 return;
 
-            var previousPrimary = primaryWeapon;
-            SetToPrimary(secondaryWeapon);
+            var previousPrimary = _primaryWeapon;
+            SetToPrimary(_secondaryWeapon);
             SetToSecondary(previousPrimary);
 
         }
@@ -144,7 +137,7 @@ namespace Units.Player
             weaponTransform.localScale = PrimaryScale;
             weaponTransform.localPosition = PrimaryPosition;
             weapon.GetComponent<SpriteRenderer>().sortingOrder = PrimarySortOrder;
-            primaryWeapon = weapon;
+            _primaryWeapon = weapon;
         }
 
         private void SetToSecondary(Weapon weapon)
@@ -154,7 +147,7 @@ namespace Units.Player
             weaponTransform.localScale = SecondaryScale;
             weaponTransform.localPosition = SecondaryPosition;
             weapon.GetComponent<SpriteRenderer>().sortingOrder = SecondarySortOrder;
-            secondaryWeapon = weapon;
+            _secondaryWeapon = weapon;
         }
     }
 }

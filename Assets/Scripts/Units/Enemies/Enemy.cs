@@ -111,5 +111,9 @@ namespace Units.Enemies
                 _rb.velocity = Vector2.zero;
             }
         }
+
+        // Used excel to find a fair score value function: 37 40 57 77 107
+        public int ScoreValue => (int)((maxHealth + 500) * (speed + 3.5) * (damage + 45) / 5000) ;
+        
     }
 }

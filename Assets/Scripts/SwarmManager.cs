@@ -9,22 +9,24 @@ public class SwarmManager : MonoBehaviour
 
     private void Update()
     {
-        _enemies.RemoveAll(a => a.Health <= 0); // assumes enemies stay dead for a while before perishing
         foreach (var enemy in _enemies)
         {
             if (enemy.Health <= 0)
-                _enemies.Remove(enemy);
+            {
+                ScoreManager.Instance.AddScore(enemy.ScoreValue);
+            }
             else
                 enemy.Step();
         }
+        _enemies.RemoveAll(a => a.Health <= 0); // assumes enemies stay dead for a while before perishing
     }
 
     public void RegisterEnemy(Enemy enemy)
     {
-        if (enemy != null && !_enemies.Contains(enemy))
-        {
-            _enemies.Add(enemy);
-            enemy.SetTarget(target);
-        }
+        if (enemy is null || _enemies.Contains(enemy))
+            return;
+        
+        _enemies.Add(enemy);
+        enemy.SetTarget(target);
     }
 }

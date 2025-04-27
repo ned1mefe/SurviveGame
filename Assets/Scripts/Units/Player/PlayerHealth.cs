@@ -35,31 +35,27 @@ namespace Units.Player
             
             if (_animator != null) _animator.SetTrigger(AnimatorHashes.Hit);
 
-            if (Dead)
-                StartCoroutine(Die());
+            if (Dead) //after the health decrease
+                Die();
         }
         
-        private IEnumerator Die()
+        private void Die()
         {
             if (_animator != null) _animator.SetBool(AnimatorHashes.Dead, true);
 
             GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
             GetComponent<PlayerMovement>().enabled = false;
-            var weaponManager = GetComponent<WeaponManager>();
-            weaponManager.DropWeapon(both: true);
-            
-            yield return new WaitForSeconds(2f);
-            
+            GetComponent<WeaponManager>().enabled = false;
         }
         private IEnumerator MakeInvincible(float duration)
         {
             _invincible = true;
-            if (_animator != null) _animator.SetBool(AnimatorHashes.Invincible,true); 
+            if (_animator is not null) _animator.SetBool(AnimatorHashes.Invincible,true); 
             
             yield return new WaitForSeconds(duration);
             
             _invincible = false;
-            if (_animator != null) _animator.SetBool(AnimatorHashes.Invincible,false); 
+            if (_animator is not null) _animator.SetBool(AnimatorHashes.Invincible,false); 
         }
     }
 }
