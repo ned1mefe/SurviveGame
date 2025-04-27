@@ -37,7 +37,7 @@ namespace Units.Player
             }
         
             _animator.SetFloat(AnimatorHashes.Speed,Mathf.Abs(horizontal) + Mathf.Abs(vertical));
-            _rigidBody.velocity = new Vector2(horizontal, vertical) * speed; 
+            _rigidBody.velocity = new Vector2(horizontal, vertical).normalized * speed; 
         }
     }
 }
