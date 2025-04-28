@@ -116,6 +116,8 @@ namespace Units.Player
             var previousPrimary = _primaryWeapon;
             SetToPrimary(_secondaryWeapon);
             SetToSecondary(previousPrimary);
+            
+            _primaryWeapon.AddDelay(); 
 
         }
         private void Flip()

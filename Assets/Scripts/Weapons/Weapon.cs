@@ -34,8 +34,8 @@ namespace Weapons
         public void TryShoot()
         {
             if (!CanShoot) return;
-            
             _lastFireTime = Time.time;
+            
             Shoot();
         }
 
@@ -52,7 +52,7 @@ namespace Weapons
 
         public void AddDelay()
         {
-            
+            _lastFireTime = Time.time - (fireRate * 2 / 3);
         }
     }
 }
