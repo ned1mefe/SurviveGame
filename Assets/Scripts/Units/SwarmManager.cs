@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using UI;
 using Units.Enemies;
 using UnityEngine;
 
-namespace Managers
+namespace Units
 {
     public class SwarmManager : MonoBehaviour
     {

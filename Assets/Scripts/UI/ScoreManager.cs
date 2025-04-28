@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace Managers
+namespace UI
 {
     public class ScoreManager : MonoBehaviour
     {

@@ -3,7 +3,7 @@ using Pooling;
 using Units.Enemies;
 using UnityEngine;
 
-namespace Managers
+namespace Units
 {
     public class EnemySpawner : MonoBehaviour
     {
