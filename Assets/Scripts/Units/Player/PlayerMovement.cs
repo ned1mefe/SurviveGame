@@ -9,6 +9,7 @@ namespace Units.Player
         private Animator _animator;
         private Rigidbody2D _rigidBody;
         private WeaponManager _weaponManager;
+        private Vector2 _movement;
 
         private void Start()
         {
@@ -17,27 +18,29 @@ namespace Units.Player
             _rigidBody = GetComponent<Rigidbody2D>();
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             HandleMovement();
         }
 
         private void HandleMovement()
         {
-            float horizontal = Input.GetAxis("Horizontal"); //Unnecessary to get these from the inputManager 
-            float vertical = Input.GetAxis("Vertical");
+            _movement.x = Input.GetAxis("Horizontal"); 
+            _movement.y = Input.GetAxis("Vertical");
             Vector3 scale = transform.localScale;
         
-            if (!_weaponManager.HasWeapon)
+            if (!_playerWeapon.HasWeapon)
             {
-                if (horizontal * scale.x < 0) // means should flip
+                if (_movement.x * scale.x < 0) // means should flip
                 {
                     transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
                 }
             }
+
+            var mag = _movement.magnitude;
         
-            _animator.SetFloat(AnimatorHashes.Speed,Mathf.Abs(horizontal) + Mathf.Abs(vertical));
-            _rigidBody.velocity = new Vector2(horizontal, vertical).normalized * speed; 
+            _animator.SetFloat(AnimatorHashes.Speed,mag);
+            _rigidBody.velocity = mag <= 1 ? _movement * speed : _movement.normalized * speed; 
         }
     }
 }
