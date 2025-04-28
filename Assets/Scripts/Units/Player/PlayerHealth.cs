@@ -45,7 +45,7 @@ namespace Units.Player
 
             GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
             GetComponent<PlayerMovement>().enabled = false;
-            GetComponent<WeaponManager>().enabled = false;
+            GetComponent<PlayerWeapon>().enabled = false;
         }
         private IEnumerator MakeInvincible(float duration)
         {

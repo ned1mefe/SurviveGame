@@ -14,27 +14,20 @@ namespace Pooling
         }
         [SerializeField] private List<Pool> poolConfigs;
         
-        private Dictionary<string, Queue<GameObject>> _poolsDictionary = new();
+        private readonly Dictionary<string, Queue<GameObject>> _poolsDictionary = new();
         
-        private static PoolManager _instance;
-        public static PoolManager Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = FindObjectOfType<PoolManager>();
-                    if (_instance == null)
-                    {
-                        Debug.LogError("No PoolManager found in the scene.");
-                    }
-                }
-                return _instance;
-            }
-        }
+        public static PoolManager Instance;
         
         private void Awake()
         {
+            if (Instance is null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
             InstantiatePools();
         }
 

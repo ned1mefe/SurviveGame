@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using Managers;
 using UnityEngine;
 using Weapons;
 
 namespace Units.Player
 {
-    public class WeaponManager : MonoBehaviour
+    public class PlayerWeapon : MonoBehaviour
     {
         private Weapon _primaryWeapon;
         private Weapon _secondaryWeapon;
@@ -29,13 +30,14 @@ namespace Units.Player
 
         private void Start()
         {
-            PickUpWeapon(CreateWeaponFromPrefab(prefabs[0]));
+            PickUpWeapon(CreateWeaponFromPrefab(prefabs[1]));
             PickUpWeapon(CreateWeaponFromPrefab(prefabs[2]));
 
+            InputManager.Instance.OnSwitchWeaponPressed += SwapWeapons;
+            
             if (HasWeapon)
             {
                 WeaponUpdateActions += HandleAim;
-                WeaponUpdateActions += HandleWeaponSwitch;
                 WeaponUpdateActions += HandleShoot;
             }
         }
@@ -64,7 +66,6 @@ namespace Units.Player
             {
                 SetToPrimary(weapon);
                 WeaponUpdateActions += HandleAim;
-                WeaponUpdateActions += HandleWeaponSwitch;
                 WeaponUpdateActions += HandleShoot;
                 return;
             }
@@ -87,13 +88,7 @@ namespace Units.Player
             if (InputManager.Instance.IsShooting)
                 _primaryWeapon.TryShoot();
         }
-        private void HandleWeaponSwitch()
-        {
-            if (InputManager.Instance.SwitchWeaponPressed) 
-            {
-                SwapWeapons();
-            }
-        }
+        
         private void HandleAim()
         {
             if (Camera.main is null)

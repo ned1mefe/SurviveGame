@@ -49,5 +49,10 @@ namespace Weapons
                 _bulletPoolTag = poolable.GetPoolTag();
             }
         }
+
+        public void AddDelay()
+        {
+            
+        }
     }
 }

@@ -8,12 +8,12 @@ namespace Units.Player
         [SerializeField] private float speed;
         private Animator _animator;
         private Rigidbody2D _rigidBody;
-        private WeaponManager _weaponManager;
+        private PlayerWeapon _playerWeapon;
         private Vector2 _movement;
 
         private void Start()
         {
-            _weaponManager = GetComponent<WeaponManager>();
+            _playerWeapon = GetComponent<PlayerWeapon>();
             _animator = GetComponent<Animator>();
             _rigidBody = GetComponent<Rigidbody2D>();
         }
