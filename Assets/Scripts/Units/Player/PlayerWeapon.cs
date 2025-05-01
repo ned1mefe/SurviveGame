@@ -29,9 +29,6 @@ namespace Units.Player
 
         private void Start()
         {
-            PickUpWeapon(CreateWeaponFromPrefab(prefabs[1]));
-            PickUpWeapon(CreateWeaponFromPrefab(prefabs[2]));
-
             InputManager.Instance.OnSwitchWeaponPressed += SwapWeapons;
             
             if (HasWeapon)
@@ -61,6 +58,7 @@ namespace Units.Player
         
         public void PickUpWeapon(Weapon weapon)
         {
+            weapon.transform.SetParent(transform);
             if (!HasWeapon)
             {
                 SetToPrimary(weapon);
@@ -70,16 +68,11 @@ namespace Units.Player
             }
             if (_secondaryWeapon is not null)
             {
+                Destroy(_primaryWeapon.gameObject);
                 SetToPrimary(weapon);
                 return;
             }
             SetToSecondary(weapon);
-        }
-
-        private Weapon CreateWeaponFromPrefab(GameObject prefab) // for testing purposes, probably will delete
-        {
-            GameObject weapon = Instantiate(prefab, transform);
-            return weapon.GetComponent<Weapon>();
         }
 
         private void HandleShoot()

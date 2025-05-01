@@ -7,19 +7,28 @@ namespace Units.Player
 {
     public class PlayerHealth : MonoBehaviour, IDamageableFriendly
     {
-        private readonly int _maxHealth = 100;
+        private int _maxHealth = 100;
         private int _health;
+        private int Health
+        {
+            get => _health;
+            set
+            {
+                _health = value;
+                healthBar.value = (float)_health / _maxHealth;
+            }
+        }
         private bool _invincible = false;
         private const float InvincibleAfterDamageDuration = 2f;
         private Animator _animator;
         [SerializeField] private Slider healthBar;
 
-        public bool Dead => _health <= 0;
+        private bool Dead => _health <= 0;
 
         private void Start()
         {
             _animator = GetComponent<Animator>();
-            _health = _maxHealth;
+            Health = _maxHealth;
         }
 
         public void TakeDamage(int amount)
@@ -27,11 +36,10 @@ namespace Units.Player
             if (Dead || _invincible)
                 return;
 
-            if(amount < _health)
+            if(amount < Health)
                 StartCoroutine(MakeInvincible(InvincibleAfterDamageDuration));
             
-            _health -= amount;
-            healthBar.value = (float)_health / _maxHealth;
+            Health -= amount;
             
             if (_animator != null) _animator.SetTrigger(AnimatorHashes.Hit);
 
@@ -57,5 +65,24 @@ namespace Units.Player
             _invincible = false;
             if (_animator is not null) _animator.SetBool(AnimatorHashes.Invincible,false); 
         }
+
+        public void Heal(int healPercent)
+        {
+            Health += _maxHealth * healPercent / 100;
+        }
+
+        public void AddMaxHealth(int amount)
+        {
+            _maxHealth += amount;
+            Health += amount;
+            var hb = healthBar.GetComponent<RectTransform>();
+
+            float currentWidth = hb.sizeDelta.x;
+            float widthPerHealth = currentWidth / (_maxHealth - amount); 
+            float newWidth = currentWidth + (amount * widthPerHealth);
+
+            hb.sizeDelta = new Vector2(newWidth, hb.sizeDelta.y);
+        }
+        
     }
 }
