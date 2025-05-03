@@ -15,4 +15,5 @@ MonoBehaviour:
   perkName: Automatic Rifle
   description: A medium ranged, fully automatic assault rifle.
   icon: {fileID: 563336626, guid: d71a3dc7aa20fad4f9a99fc76a9254ba, type: 3}
+  limit: 1
   gunPrefab: {fileID: 3656307751872402621, guid: 5ec2e3f98e2274f40bf69dafb9a7899b, type: 3}

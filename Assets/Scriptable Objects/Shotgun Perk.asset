@@ -15,4 +15,5 @@ MonoBehaviour:
   perkName: Shotgun
   description: Great for close combat, deals high damage at short range.
   icon: {fileID: -762074860, guid: d71a3dc7aa20fad4f9a99fc76a9254ba, type: 3}
+  limit: 1
   gunPrefab: {fileID: 5655543673758070097, guid: e250c6c8619d9b84080c13c14695fb34, type: 3}

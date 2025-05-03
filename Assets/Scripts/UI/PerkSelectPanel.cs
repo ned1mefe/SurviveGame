@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Perks;
 using UnityEngine;
@@ -10,10 +11,16 @@ namespace UI
     {
         public Perk[] allPerks;
         private PerkButton[] _perkButtons;
+        private Dictionary<Perk,int> _selectedPerks;
 
         private void Awake()
         {
             _perkButtons = GetComponentsInChildren<PerkButton>();
+            _selectedPerks = new();
+            foreach (var perk in allPerks)
+            {
+                _selectedPerks[perk] = 0;
+            }
         }
         private void OnEnable()
         {
@@ -33,21 +40,39 @@ namespace UI
             GetRandomPerks();
         }
 
+        public void RegisterToDictionary(Perk p)
+        {
+            _selectedPerks[p]++;
+        }
+
         private void GetGiveGunPerks()
         {
             GiveGunPerk[] gunPerks = allPerks.OfType<GiveGunPerk>().ToArray();
             for (int i = 0; i < 3; i++)
             {
-                _perkButtons[i].Setup(gunPerks[i]);
+                var p = gunPerks[i];
+                _perkButtons[i].Setup(p);
+                if (_selectedPerks[p] >= p.limit)
+                {
+                    _perkButtons[i].GetComponent<Button>().interactable = false;
+                }
             }
         }
         private void GetRandomPerks()
         {
-            var otherPerks = allPerks.Where(perk => perk is not GiveGunPerk).ToArray();
+            var availablePerks = allPerks
+                .Where(perk => perk is not GiveGunPerk && _selectedPerks[perk] < perk.limit)
+                .ToList();
 
             for (int i = 0; i < 3; i++)
             {
-                _perkButtons[i].Setup(otherPerks[Random.Range(0, otherPerks.Length)]);
+                if (availablePerks.Count == 0)
+                    break;
+
+                var randomPerk = availablePerks[Random.Range(0, availablePerks.Count)];
+                _perkButtons[i].Setup(randomPerk);
+        
+                availablePerks.Remove(randomPerk);
             }
         }
     }

@@ -17913,7 +17913,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.6981132, g: 0.013286542, b: 0, a: 0.8627451}
+    m_DisabledColor: {r: 1, g: 0.7058824, b: 0.65882355, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -18061,7 +18061,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.6981132, g: 0.013286542, b: 0, a: 0.8627451}
+    m_DisabledColor: {r: 1, g: 0.7059671, b: 0.65723264, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -18831,7 +18831,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.6981132, g: 0.013286542, b: 0, a: 0.8627451}
+    m_DisabledColor: {r: 1, g: 0.7058824, b: 0.65882355, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -19905,9 +19905,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allPerks:
+  - {fileID: 11400000, guid: 7281727ca27c33d4cae9e029aadb35a9, type: 2}
   - {fileID: 11400000, guid: 75548e42e114e5145828eeb1945d88ab, type: 2}
+  - {fileID: 11400000, guid: 644dbbb4cb41f1249a42c5b852d626d1, type: 2}
+  - {fileID: 11400000, guid: 91c7893ba6a5d6349ab664b2d6cdf6b8, type: 2}
   - {fileID: 11400000, guid: 218135298891e704e8d482a538abe3c5, type: 2}
   - {fileID: 11400000, guid: 2d5772fa538a54a41aa00bcfa7569e42, type: 2}
+  - {fileID: 11400000, guid: 389d5b380c890e543b2cd8cae322394a, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

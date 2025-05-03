@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   perkName: Big Heal
   description: Restores 60% health.
-  icon: {fileID: 934571490, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}
+  icon: {fileID: 927338625, guid: d71a3dc7aa20fad4f9a99fc76a9254ba, type: 3}
+  limit: 9999
   healPercentage: 60

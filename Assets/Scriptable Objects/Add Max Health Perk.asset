@@ -15,4 +15,5 @@ MonoBehaviour:
   perkName: ' Increase Max Health'
   description: Gain +10 maximum health capacity.
   icon: {fileID: 934571490, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}
+  limit: 5
   amount: 10

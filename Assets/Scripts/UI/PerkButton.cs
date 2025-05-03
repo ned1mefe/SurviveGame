@@ -11,6 +11,7 @@ namespace UI
         private TextMeshProUGUI _nameText;
         private TextMeshProUGUI _descriptionText;
         private GameObject _player;
+        private PerkSelectPanel _perkSelectPanel;
 
         private Perk _assignedPerk;
     
@@ -18,6 +19,7 @@ namespace UI
         {
             if (_player is null)
                 Initialize();
+            _perkSelectPanel = GetComponentInParent<PerkSelectPanel>();
         }
         private void Initialize()
         {
@@ -45,9 +47,7 @@ namespace UI
         public void OnClick()
         {
             _assignedPerk.Apply(_player);
-            
-            if(_assignedPerk is GiveGunPerk)
-                GetComponent<Button>().interactable = false; // for second gun selection
+            _perkSelectPanel.RegisterToDictionary(_assignedPerk);
             
             UIManager.Instance.ClosePerkSelectPanel();
         }

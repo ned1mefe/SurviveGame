@@ -8,6 +8,7 @@ namespace Perks
         [TextArea]
         public string description;
         public Sprite icon;
+        public int limit;
 
         public abstract void Apply(GameObject player);
     }

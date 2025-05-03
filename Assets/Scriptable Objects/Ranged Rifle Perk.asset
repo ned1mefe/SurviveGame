@@ -15,4 +15,5 @@ MonoBehaviour:
   perkName: Sniper
   description: Shoots accurate powerful bullets from long range.
   icon: {fileID: -205726582, guid: d71a3dc7aa20fad4f9a99fc76a9254ba, type: 3}
+  limit: 1
   gunPrefab: {fileID: 7777253912663310495, guid: 9871ac1ee53575847bdae00c098a1736, type: 3}
