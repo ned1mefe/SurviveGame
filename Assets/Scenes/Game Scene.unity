@@ -19906,12 +19906,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allPerks:
   - {fileID: 11400000, guid: 7281727ca27c33d4cae9e029aadb35a9, type: 2}
+  - {fileID: 11400000, guid: 151c50d1dedeae14ca4f72cb377c9577, type: 2}
   - {fileID: 11400000, guid: 75548e42e114e5145828eeb1945d88ab, type: 2}
+  - {fileID: 11400000, guid: 1b17a78c21e777f44b87ebd8c3e4dc50, type: 2}
   - {fileID: 11400000, guid: 644dbbb4cb41f1249a42c5b852d626d1, type: 2}
+  - {fileID: 11400000, guid: 7d9e30368b3d3f7489a78593a8ac2645, type: 2}
   - {fileID: 11400000, guid: 91c7893ba6a5d6349ab664b2d6cdf6b8, type: 2}
   - {fileID: 11400000, guid: 218135298891e704e8d482a538abe3c5, type: 2}
   - {fileID: 11400000, guid: 2d5772fa538a54a41aa00bcfa7569e42, type: 2}
   - {fileID: 11400000, guid: 389d5b380c890e543b2cd8cae322394a, type: 2}
+  - {fileID: 11400000, guid: 78e924379a4ddc344aef0d2d51d7a968, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -42,5 +42,12 @@ namespace Units.Player
             _animator.SetFloat(AnimatorHashes.Speed,mag);
             _rigidBody.velocity = mag <= 1 ? _movement * speed : _movement.normalized * speed; 
         }
+
+        public void IncreaseSpeed(int percentage)
+        {
+            speed += speed * percentage / 100;
+            Debug.Log(speed);
+        }
+        
     }
 }

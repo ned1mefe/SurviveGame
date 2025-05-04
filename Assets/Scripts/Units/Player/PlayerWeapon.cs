@@ -75,6 +75,12 @@ namespace Units.Player
             SetToSecondary(weapon);
         }
 
+        public void IncreaseAllWeaponsAttackSpeed(int percent)
+        {
+            _primaryWeapon.IncreaseAttackSpeed(percent);
+            _secondaryWeapon.IncreaseAttackSpeed(percent);
+        }
+
         private void HandleShoot()
         {
             if (InputManager.Instance.IsShooting)

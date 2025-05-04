@@ -1,3 +1,4 @@
+using System.Collections;
 using Pooling;
 using UnityEngine;
 
@@ -12,25 +13,7 @@ namespace Weapons
         [SerializeField] protected int bulletsPerShot;
         private float _lastFireTime = 0f;
         private string _bulletPoolTag;
-
-        private void Shoot()
-        {
-            for (int i = 0; i < bulletsPerShot; i++)
-            {
-                InstantiateBullet();
-            }
-        }
-
-        private void InstantiateBullet()
-        {
-            if (projectilePrefab is not null 
-                && firePoint is not null)
-            {
-                var angleOffset = Random.Range(-spread / 2, spread / 2);
-                PoolManager.Instance.GetFromPool(_bulletPoolTag, firePoint.position, firePoint.rotation * Quaternion.Euler(0,0,angleOffset));
-            }
-        }
-
+        
         public void TryShoot()
         {
             if (!CanShoot) return;
@@ -53,6 +36,35 @@ namespace Weapons
         public void AddDelay()
         {
             _lastFireTime = Time.time - (fireRate * 2 / 3);
+        }
+
+        public void IncreaseAttackSpeed(int percent)
+        {
+            var cdReductionPercent = GetCooldownReductionPercent(percent);
+            fireRate -= fireRate * cdReductionPercent / 100;
+            Debug.Log(fireRate);
+        }
+        
+        private float GetCooldownReductionPercent(float asIncreasePercent)
+        {
+            return 100f * (1f - 1f / (1f + asIncreasePercent / 100f));
+        }
+        
+        private void Shoot()
+        {
+            for (int i = 0; i < bulletsPerShot; i++)
+            {
+                InstantiateBullet();
+            }
+        }
+        private void InstantiateBullet()
+        {
+            if (projectilePrefab is not null 
+                && firePoint is not null)
+            {
+                var angleOffset = Random.Range(-spread / 2, spread / 2);
+                PoolManager.Instance.GetFromPool(_bulletPoolTag, firePoint.position, firePoint.rotation * Quaternion.Euler(0,0,angleOffset));
+            }
         }
     }
 }
