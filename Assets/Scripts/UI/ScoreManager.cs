@@ -10,8 +10,8 @@ namespace UI
 
         private int _score = 0;
         public int playerLevel = 1;
-        private int _levelUpAt = 50; //150
-        private int NextLevelUpAt => _levelUpAt + 00 + playerLevel * 150; //400
+        private int _levelUpAt = 150;
+        private int NextLevelUpAt => _levelUpAt + 300 + playerLevel * 100;
         private TMP_Text _scoreText;
 
         private void Awake()

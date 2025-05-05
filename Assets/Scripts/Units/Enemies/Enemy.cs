@@ -112,7 +112,7 @@ namespace Units.Enemies
             }
         }
 
-        // Used excel to find a fair score value function: 37 40 57 77 107
+        // Used excel to find a fair score value function: 40 43 57 84 112
         public int ScoreValue => (int)((maxHealth + 500) * (speed + 3.5) * (damage + 45) / 5000) ;
         
     }

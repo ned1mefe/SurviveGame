@@ -647,6 +647,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 170
-  speed: 3.5
+  speed: 3.6
   damage: 15
   healthBar: {fileID: 6647364880670033108}
