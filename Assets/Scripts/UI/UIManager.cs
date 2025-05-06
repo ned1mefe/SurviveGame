@@ -15,16 +15,20 @@ namespace UI
         private bool ShouldPause => pausePanel.isActiveAndEnabled || perkSelectPanel.isActiveAndEnabled;
 
         public static UIManager Instance;
-        void Start()
+        private void Awake()
         {
             if (Instance == null)
                 Instance = this;
             else
                 Destroy(gameObject);
-            
+        }
+
+        private void Start()
+        {
             InputManager.Instance.OnPausePressed += TogglePausePanel;
             OpenPerkSelectPanel();
         }
+
 
         public void TogglePausePanel()
         {

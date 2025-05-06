@@ -31,8 +31,8 @@ namespace Units.Player
         private void Start()
         {
             InputManager.Instance.OnSwitchWeaponPressed += SwapWeapons;
-            //UIManager.Instance.OnGamePause += DisableAimAndShoot;
-            //UIManager.Instance.OnGameContinue += EnableAimAndShoot;
+            UIManager.Instance.OnGamePause += DisableAimAndShoot;
+            UIManager.Instance.OnGameContinue += EnableAimAndShoot;
             
             
             if (HasWeapon)
