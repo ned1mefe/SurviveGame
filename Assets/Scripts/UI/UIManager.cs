@@ -7,6 +7,7 @@ namespace UI
 
         [SerializeField] private PausePanel pausePanel;
         [SerializeField] private PerkSelectPanel perkSelectPanel;
+        [SerializeField] private OptionsPanel optionsPanel;
 
         private bool ShouldPause => pausePanel.isActiveAndEnabled || perkSelectPanel.isActiveAndEnabled;
 
@@ -22,7 +23,7 @@ namespace UI
             OpenPerkSelectPanel();
         }
 
-        private void TogglePausePanel()
+        public void TogglePausePanel()
         {
             pausePanel.transform.parent.gameObject.SetActive(!pausePanel.isActiveAndEnabled); // because of the blur
             CheckTimeScale();
@@ -43,6 +44,11 @@ namespace UI
         private void CheckTimeScale()
         {
             Time.timeScale = ShouldPause ? 0 : 1;
+        }
+
+        public void OpenOptionsPanel()
+        {
+            optionsPanel.gameObject.SetActive(true);
         }
 
 

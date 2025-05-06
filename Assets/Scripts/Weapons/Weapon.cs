@@ -1,4 +1,5 @@
 using System.Collections;
+using Audio;
 using Pooling;
 using UnityEngine;
 
@@ -42,7 +43,6 @@ namespace Weapons
         {
             var cdReductionPercent = GetCooldownReductionPercent(percent);
             fireRate -= fireRate * cdReductionPercent / 100;
-            Debug.Log(fireRate);
         }
         
         private float GetCooldownReductionPercent(float asIncreasePercent)
@@ -52,6 +52,7 @@ namespace Weapons
         
         private void Shoot()
         {
+            SoundManager.Instance.PlaySound(GetType().Name);
             for (int i = 0; i < bulletsPerShot; i++)
             {
                 InstantiateBullet();

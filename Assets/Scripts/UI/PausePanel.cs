@@ -7,7 +7,12 @@ namespace UI
     {
         public void ContinueButtonPressed()
         {
-            gameObject.SetActive(false);
+            UIManager.Instance.TogglePausePanel();
+        }
+
+        public void OptionsButtonPressed()
+        {
+            UIManager.Instance.OpenOptionsPanel();
         }
         public void QuitButtonPressed()
         {

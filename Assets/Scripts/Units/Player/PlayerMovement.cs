@@ -1,3 +1,4 @@
+using Audio;
 using UnityEngine;
 using Utils;
 
@@ -46,7 +47,15 @@ namespace Units.Player
         public void IncreaseSpeed(int percentage)
         {
             speed += speed * percentage / 100;
-            Debug.Log(speed);
+        }
+
+        public void RightStep()
+        {
+            SoundManager.Instance.PlaySound("RightStep");
+        }
+        public void LeftStep()
+        {
+            SoundManager.Instance.PlaySound("LeftStep");
         }
         
     }
