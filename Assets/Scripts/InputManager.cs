@@ -30,4 +30,12 @@ public class InputManager : MonoBehaviour
 
         IsShooting = Input.GetMouseButton(0);
     }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
 }

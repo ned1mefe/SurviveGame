@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -18,7 +19,9 @@ namespace UI
         {
             _scoreText = GetComponent<TMP_Text>();
             if (Instance is null)
+            {
                 Instance = this;
+            }
             else
                 Destroy(gameObject);
         }
@@ -40,6 +43,14 @@ namespace UI
             yield return new WaitForSeconds(0.1f);
 
             UIManager.Instance.OpenPerkSelectPanel();
+        }
+
+        private void OnDestroy()
+        {
+            if (Instance == this)
+            {
+                Instance = null;
+            }
         }
     }
 }

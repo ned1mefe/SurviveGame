@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 using Weapons;
 
@@ -30,11 +31,13 @@ namespace Units.Player
         private void Start()
         {
             InputManager.Instance.OnSwitchWeaponPressed += SwapWeapons;
+            //UIManager.Instance.OnGamePause += DisableAimAndShoot;
+            //UIManager.Instance.OnGameContinue += EnableAimAndShoot;
+            
             
             if (HasWeapon)
             {
-                WeaponUpdateActions += HandleAim;
-                WeaponUpdateActions += HandleShoot;
+                EnableAimAndShoot();
             }
         }
 
@@ -52,8 +55,8 @@ namespace Units.Player
             {
                 _secondaryWeapon.gameObject.SetActive(false);
             }
-            
-            WeaponUpdateActions = null;
+
+            DisableAimAndShoot();
         }
         
         public void PickUpWeapon(Weapon weapon)
@@ -62,8 +65,7 @@ namespace Units.Player
             if (!HasWeapon)
             {
                 SetToPrimary(weapon);
-                WeaponUpdateActions += HandleAim;
-                WeaponUpdateActions += HandleShoot;
+                EnableAimAndShoot();
                 return;
             }
             if (_secondaryWeapon is not null)
@@ -73,6 +75,19 @@ namespace Units.Player
                 return;
             }
             SetToSecondary(weapon);
+        }
+        
+        private void EnableAimAndShoot()
+        {
+            if(!HasWeapon)
+                return;
+            WeaponUpdateActions += HandleAim;
+            WeaponUpdateActions += HandleShoot;
+        }
+
+        private void DisableAimAndShoot()
+        {
+            WeaponUpdateActions = null;
         }
 
         public void IncreaseAllWeaponsAttackSpeed(int percent)

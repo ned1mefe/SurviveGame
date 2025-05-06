@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace UI
@@ -9,6 +10,8 @@ namespace UI
         [SerializeField] private PerkSelectPanel perkSelectPanel;
         [SerializeField] private OptionsPanel optionsPanel;
 
+        public event Action OnGamePause;
+        public event Action OnGameContinue;
         private bool ShouldPause => pausePanel.isActiveAndEnabled || perkSelectPanel.isActiveAndEnabled;
 
         public static UIManager Instance;
@@ -43,7 +46,14 @@ namespace UI
         
         private void CheckTimeScale()
         {
+            var prevTime = Time.timeScale;
             Time.timeScale = ShouldPause ? 0 : 1;
+            
+            if(prevTime > Time.timeScale)
+                OnGamePause?.Invoke();
+            
+            if(prevTime < Time.timeScale)
+                OnGameContinue?.Invoke();
         }
 
         public void OpenOptionsPanel()
@@ -51,6 +61,12 @@ namespace UI
             optionsPanel.gameObject.SetActive(true);
         }
 
-
+        private void OnDestroy()
+        {
+            if (Instance == this)
+            {
+                Instance = null;
+            }
+        }
     }
 }

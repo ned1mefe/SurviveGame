@@ -9,9 +9,7 @@ namespace UI
     {
         private void Start()
         {
-            Debug.Log(SoundManager.Instance.MusicVolume);
             SoundManager.Instance.PlayMusic("MainMenuTheme");
-            Debug.Log(SoundManager.Instance.MusicVolume);
         }
 
         public void StartButtonPressed()
