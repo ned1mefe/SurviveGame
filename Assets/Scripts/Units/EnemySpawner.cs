@@ -26,6 +26,8 @@ namespace Units
             {
                 yield return new WaitForSeconds(spawnInterval);
 
+                spawnInterval *= 0.99f;
+
                 #region FindSpawnPoint
             
                 Vector3 spawnPoint = new Vector3(mapHalfWidth,mapHalfHeight,0);

@@ -20848,7 +20848,7 @@ MonoBehaviour:
   - {fileID: 7444250730935163150, guid: 3d7a492277ea95c4ca83499d1df6509c, type: 3}
   - {fileID: 8798880602418395764, guid: 30b853cd28c696e4dba35190a75864ae, type: 3}
   - {fileID: 414664384142092731, guid: fa175bfdce88c454580bfd354f4c3c54, type: 3}
-  spawnInterval: 3.2
+  spawnInterval: 3.4
   mapHalfWidth: 24.1
   mapHalfHeight: 13.83
 --- !u!114 &2113451744
