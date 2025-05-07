@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using UI;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
@@ -54,6 +55,8 @@ namespace Units.Player
             GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
             GetComponent<PlayerMovement>().enabled = false;
             GetComponent<PlayerWeapon>().enabled = false;
+            
+            UIManager.Instance.OpenGameOverPanel();
         }
         private IEnumerator MakeInvincible(float duration)
         {

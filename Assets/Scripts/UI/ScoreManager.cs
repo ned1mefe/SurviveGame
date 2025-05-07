@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
 
@@ -14,6 +15,8 @@ namespace UI
         private int _levelUpAt = 150;
         private int NextLevelUpAt => _levelUpAt + 300 + playerLevel * 100;
         private TMP_Text _scoreText;
+
+        private const string HighScoreKey = "HighScore";
 
         private void Awake()
         {
@@ -44,6 +47,17 @@ namespace UI
 
             UIManager.Instance.OpenPerkSelectPanel();
         }
+
+        public void SetHighScore()
+        {
+            var hScore = PlayerPrefs.GetInt(HighScoreKey, 0);
+            if (_score > hScore)
+                PlayerPrefs.SetInt(HighScoreKey,_score);
+        }
+
+        public int GetHighScore() => PlayerPrefs.GetInt(HighScoreKey, 0);
+        public int GetScore() => _score;
+        
 
         private void OnDestroy()
         {

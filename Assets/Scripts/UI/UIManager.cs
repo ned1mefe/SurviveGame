@@ -9,10 +9,11 @@ namespace UI
         [SerializeField] private PausePanel pausePanel;
         [SerializeField] private PerkSelectPanel perkSelectPanel;
         [SerializeField] private OptionsPanel optionsPanel;
+        [SerializeField] private GameOverPanel gameOverPanel;
 
         public event Action OnGamePause;
         public event Action OnGameContinue;
-        private bool ShouldPause => pausePanel.isActiveAndEnabled || perkSelectPanel.isActiveAndEnabled;
+        private bool ShouldPause => pausePanel.isActiveAndEnabled || perkSelectPanel.isActiveAndEnabled || gameOverPanel.isActiveAndEnabled;
 
         public static UIManager Instance;
         private void Awake()
@@ -63,6 +64,12 @@ namespace UI
         public void OpenOptionsPanel()
         {
             optionsPanel.gameObject.SetActive(true);
+        }
+
+        public void OpenGameOverPanel()
+        {
+            gameOverPanel.gameObject.SetActive(true);
+            CheckTimeScale();
         }
 
         private void OnDestroy()

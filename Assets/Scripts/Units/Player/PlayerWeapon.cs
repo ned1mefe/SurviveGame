@@ -57,6 +57,8 @@ namespace Units.Player
             }
 
             DisableAimAndShoot();
+            UIManager.Instance.OnGamePause -= DisableAimAndShoot;
+            UIManager.Instance.OnGameContinue -= EnableAimAndShoot;
         }
         
         public void PickUpWeapon(Weapon weapon)
