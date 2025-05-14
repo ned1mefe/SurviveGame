@@ -36,6 +36,7 @@ A fast-paced 2D top-down shooter game developed in Unity. The player fights agai
 | Action         | Key         |
 |----------------|-------------|
 | Move           | WASD / Arrow Keys |
+| Swap Weapons   | Q key |
 | Shoot          | Left Mouse Button |
 | Aim            | Mouse Cursor |
 | Pause/Resume   | Escape |
